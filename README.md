@@ -1,3 +1,63 @@
+# 声音克隆配音
+
+> 篝火出品 · 基于开源项目 [RVC-Boss/GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS)（MIT）
+
+> [!WARNING]
+> **高风险工具，仅开源，不上架篝火应用区。** 声音克隆可能被用于冒充他人、诈骗、虚假宣传或侵犯肖像 / 声音权益，**仅供学习研究**。
+>
+> - **只克隆你本人的声音，或已经获得声音所有者明确书面授权的声音。** 不得克隆明星、公众人物、同事、家人等他人声音用于未经授权的用途。
+> - 生成的音频用于发布、宣传、直播时，请按平台规定和法律法规**添加 AI 生成标识**。
+> - 不要用于诈骗、骚扰、造谣、伪造证据等任何违法用途。使用后果自负。
+
+输入几秒到一分钟的人声样本，就能用这个声音把文字念出来（文字转语音，支持中、英、日、韩、粤语），也可以用少量数据微调出更像的模型。自带人声伴奏分离、自动切片、中文语音识别、文本标注等配套工具，网页界面操作。
+
+## 使用前必读
+
+- **需要显卡**：推荐 Windows + 英伟达显卡（启动脚本会安装 CUDA 12.6 版 PyTorch）。没有显卡也能装，但只有 CPU 推理，很慢，训练基本不可用。Mac 会走 Apple 芯片的 MPS 加速，上游标注支持但速度和兼容性不如英伟达显卡。
+- **体积大**：首次启动要下载 PyTorch（约几 GB）和预训练模型（约数 GB），请保持联网并预留 10 GB 以上硬盘空间。
+- **需要 ffmpeg**：Mac 先执行 `brew install ffmpeg`；Windows 下载 `ffmpeg.exe` 和 `ffprobe.exe` 放到解压出来的文件夹根目录。
+- 网页界面语言为中文（启动参数 `zh_CN`）。
+- 预训练模型由上游维护者托管在 HuggingFace / ModelScope（`XXXXRT/GPT-SoVITS-Pretrained`），**不包含在本仓库里**，篝火没有逐个核对这些模型各自的协议，商用前请自行确认。
+- 日志检查：按关键词检索，没有发现把密钥、口令明文打印的写法（非逐行审计）；程序本机运行，不会上传你的音频，只在安装时下载依赖和模型。
+- 上游另有 Docker 部署方式（`docker-compose.yaml`），篝火没有改动。
+
+## 下载与运行
+
+到 [Releases](https://github.com/campfire-code/voice-clone/releases/latest) 下载 `voice-clone_版本号_portable.zip`，解压后：
+
+- **Windows**：双击 `启动（Windows 双击）.bat`
+- **Mac**：双击 `启动（Mac 双击）.command`（第一次可能要在「系统设置 → 隐私与安全性」里允许打开）
+
+第一次运行会自动安装 uv、Python 3.10、依赖并下载模型，需要较长时间；之后启动很快，并会自动打开浏览器 http://127.0.0.1:9874 。
+
+## 怎么用
+
+按上游界面的页签操作：先在「人声分离 / 切片 / 语音识别 / 文本标注」里整理自己的录音，再在「训练」里微调，最后在「推理」页选择模型、上传一段参考音频（3~10 秒）并输入文字合成。详细教程见上游文档（中文）：https://www.yuque.com/baicaigongchang1145haoyuangong/ib3g1e
+
+## 验收用例
+
+| 操作 | 应得到 |
+|---|---|
+| 运行启动脚本，等待安装完成 | 浏览器自动打开 WebUI 页面，界面是中文 |
+| 在推理页上传一段**自己**的 5 秒录音作参考，输入一句话，点合成 | 播放出用你的声音念出的这句话 |
+
+## 验证情况
+
+- 篝火在 macOS 上用 `campfire_install.py` 做过安装验证，结果见报告；**Windows + 英伟达显卡的路径未实测**，CUDA 版 PyTorch 的安装命令来自上游 `install.sh`。
+
+## 和上游的区别
+
+- 新增 `campfire_install.py`、`campfire/` 启动脚本、`tool.json` 与篝火发布流程，用 uv 代替上游要求的 conda，其余代码与上游一致。
+- 移除了上游的 GitHub 工作流（它们依赖上游的密钥）。
+
+## 归属与许可证
+
+本仓库由**篝火**整理，版权归 [RVC-Boss/GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS) 原作者所有，按 MIT 许可证再分发（LICENSE 见本仓库）。上游依赖的其他开源项目见其 README 的 Credits 一节。全部工具目录见 [toolkit-hub](https://github.com/campfire-code/toolkit-hub)。
+
+---
+
+以下为上游原始说明：
+
 <div align="center">
 
 <h1>GPT-SoVITS-WebUI</h1>

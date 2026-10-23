@@ -1,0 +1,10 @@
+{
+  "id": "c12",
+  "slug": "voice-clone",
+  "name": "声音克隆配音",
+  "version": "20250606v2pro-campfire.1",
+  "repo": "campfire-code/voice-clone",
+  "license": "MIT",
+  "delivery": "launcher",
+  "upstream": { "repo": "RVC-Boss/GPT-SoVITS", "license": "MIT", "tag": "20250606v2pro" }
+}
