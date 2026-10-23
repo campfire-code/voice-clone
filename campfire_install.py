@@ -34,6 +34,8 @@ else:
 # 2. 其余依赖
 run(UV + ["-r", "extra-req.txt", "--no-deps"])
 run(UV + ["-r", "requirements.txt"])
+# 用 uv 解析时会选到过旧的 gradio（3.x，和新版 gradio-client 不兼容），而 gradio 4.44 又和新版 starlette 不兼容，这里固定一组能一起工作的版本
+run(UV + ["gradio==4.44.1", "starlette<0.47", "fastapi<0.116"])
 
 # 3. 预训练模型。选了国内镜像（UV_DEFAULT_INDEX 有值）时先用 ModelScope，失败再用 HuggingFace
 SOURCES = {

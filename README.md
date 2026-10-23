@@ -43,7 +43,7 @@
 
 ## 验证情况
 
-- 篝火在 macOS 上用 `campfire_install.py` 做过安装验证，结果见报告；**Windows + 英伟达显卡的路径未实测**，CUDA 版 PyTorch 的安装命令来自上游 `install.sh`。
+- 篝火在 macOS（Apple 芯片，Python 3.10）上完整跑过 `campfire_install.py`（装依赖、下载模型）并启动 WebUI，访问 http://127.0.0.1:9874 返回正常；没有实际合成语音、没有训练；**Windows + 英伟达显卡的路径未实测**，CUDA 版 PyTorch 的安装命令来自上游 `install.sh`。
 
 ## 和上游的区别
 
